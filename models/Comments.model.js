@@ -18,6 +18,11 @@ const commentsSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  OwnedBy: {
+    required: [true, "Owned By is required"],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Comments = model("Comments", commentsSchema);

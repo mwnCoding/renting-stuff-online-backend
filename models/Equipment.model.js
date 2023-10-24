@@ -12,6 +12,11 @@ const equipmentSchema = new Schema(
       type: String,
       enum: ["poor", "used", "good", "new"],
     },
+    OwnedBy: {
+      required: [true, "Owned By is required"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     rentedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -23,10 +23,6 @@ const userSchema = new Schema(
       required: [true, "Last name is required"],
     },
     imageUrl: String,
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -35,7 +31,7 @@ const userSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Equipment",
     },
-    comments: {
+    [comments]: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comments",
     },
