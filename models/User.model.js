@@ -29,6 +29,15 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+      required: [true, "Password is required"],
+    },
+    [equipment]: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Equipment",
+    },
+    comments: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comments",
     },
   },
   {
