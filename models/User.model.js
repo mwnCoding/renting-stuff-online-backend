@@ -10,7 +10,7 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    password: {
+    passwordHash: {
       type: String,
       required: [true, "Password is required."],
     },
@@ -22,18 +22,19 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Last name is required"],
     },
-    imageUrl: String,
-    password: {
+    imageUrl: {
       type: String,
-      required: [true, "Password is required"],
+      default: "./src/assets/defaultAvatar.png",
     },
     [equipment]: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Equipment",
+      default: [],
     },
     [comments]: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comments",
+      default: [],
     },
   },
   {
