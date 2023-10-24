@@ -1,4 +1,9 @@
+const mongoose = require("mongoose");
+
 const { Schema, model } = require("mongoose");
+
+const Equipment = require("./Equipment.model");
+const Comments = require("./Comments.model");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
@@ -26,12 +31,12 @@ const userSchema = new Schema(
       type: String,
       default: "./src/assets/defaultAvatar.png",
     },
-    [equipment]: {
+    [Equipment]: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Equipment",
       default: [],
     },
-    [comments]: {
+    [Comments]: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comments",
       default: [],
