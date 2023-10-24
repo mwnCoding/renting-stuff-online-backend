@@ -14,19 +14,19 @@ router.post("/signup", async (request, response) => {
   const salt = bcrypt.genSaltSync(13);
 
   const passwordHash = bcrypt.hashSync(request.body.password, salt);
-
+  console.log(request.body.password)
   try {
     const newUser = await User.create({ ...request.body, passwordHash });
-    res.status(201).json(newUser);
+    response.status(201).json(newUser);
   } catch (error) {
     console.log(error);
-    res.status(400).json(error);
+    response.status(400).json(error);
   }
 });
 
 //Post to Login
 router.post("/login", async (request, response) => {
-  const { username, password } = req.body;
+  const { username, password } = request.body;
   const potentialUser = await User.findOne({ username });
 
   if (potentialUser) {
@@ -35,7 +35,7 @@ router.post("/login", async (request, response) => {
         { userId: potentialUser._id },
         process.env.TOKEN_SECRET,
         {
-          algortihm: "HS256",
+          algorithm: "HS256",
           expiresIn: "6h",
         }
       );

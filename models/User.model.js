@@ -31,13 +31,13 @@ const userSchema = new Schema(
       type: String,
       default: "./src/assets/defaultAvatar.png",
     },
-    [Equipment]: {
-      type: mongoose.Schema.Types.ObjectId,
+    equipment: {
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "Equipment",
       default: [],
     },
-    [Comments]: {
-      type: mongoose.Schema.Types.ObjectId,
+    comments: {
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "Comments",
       default: [],
     },
