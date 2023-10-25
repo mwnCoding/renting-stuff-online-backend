@@ -39,7 +39,6 @@ router.post("/login", async (request, response) => {
           expiresIn: "6h",
         }
       );
-
       response.status(200).json({ token: authToken });
     } else {
       response.status(400).json({ message: "Wrong password" });
