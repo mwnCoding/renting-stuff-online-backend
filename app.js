@@ -20,7 +20,7 @@ require("./config")(app);
 //Setup CORS
 app.use(
   cors({
-    origin: ["http://localhost:5005"],
+    origin: ["http://localhost:5173"],
   })
 );
 
