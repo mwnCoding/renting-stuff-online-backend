@@ -26,8 +26,8 @@ router.post("/signup", async (request, response) => {
 
 //Post to Login
 router.post("/login", async (request, response) => {
-  const { username, password } = request.body;
-  const potentialUser = await User.findOne({ username });
+  const { email, password } = request.body;
+  const potentialUser = await User.findOne({ email });
 
   if (potentialUser) {
     if (bcrypt.compareSync(password, potentialUser.passwordHash)) {
