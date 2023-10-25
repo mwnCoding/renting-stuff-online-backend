@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 
 router.get('/', (req, res, next) => {
-    Equipment.find({})
+    Equipment.find({}).populate('OwnedBy')
     .then((equipments) => {
         console.log(equipments)
         res.status(200).json(equipments)
@@ -19,7 +19,7 @@ router.get('/:equipmentId', (req, res, next) => {
         res.status(400).json({message: `Specified id is not valid`});
       }
 
-    Equipment.findById(equipmentId)
+    Equipment.findById(equipmentId).populate('OwnedBy')
     .then((foundEquipment) => {
         console.log(foundEquipment)
         res.status(200).json(foundEquipment)
@@ -49,7 +49,7 @@ router.put('/:equipmentId', (req, res, next) => {
 
     Equipment.findByIdAndUpdate(equipmentId, req.body, {new: true})
     .then((updatedEquipment) => {
-        req.status(200).json(updatedEquipment)
+        res.status(200).json(updatedEquipment)
     })
     .catch((err) =>
         console.log(err)
