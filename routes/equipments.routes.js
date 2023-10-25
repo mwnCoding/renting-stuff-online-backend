@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 
 router.get('/', (req, res, next) => {
-    Equipment.find({}).populate('OwnedBy')
+    Equipment.find(req.query).populate('OwnedBy')
     .then((equipments) => {
         console.log(equipments)
         res.status(200).json(equipments)
