@@ -50,7 +50,7 @@ router.post("/login", async (request, response) => {
 
 router.get("/verify", isAuthenticated, (request, response) => {
   console.log(request.payload);
-  res.json(request.payload);
+  response.json(request.payload);
 });
 
 module.exports = router;
