@@ -2,70 +2,92 @@ const Equipment = require("../models/Equipment.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
-router.get('/', (req, res, next) => {
-    Equipment.find(req.query).populate('OwnedBy')
+router.get("/", (req, res, next) => {
+  Equipment.find(req.query)
+    .populate("ownedBy")
     .then((equipments) => {
-        console.log(equipments)
-        res.status(200).json(equipments)
-    }).catch((err) => {
-        console.log(err)
+      console.log(equipments);
+      res.status(200).json(equipments);
     })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-router.get('/:equipmentId', (req, res, next) => {
-    const { equipmentId } = req.params;
+router.get("/:equipmentId", (req, res, next) => {
+  const { equipmentId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(equipmentId)){
-        res.status(400).json({message: `Specified id is not valid`});
-      }
+  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+    res.status(400).json({ message: `Specified id is not valid` });
+  }
 
-    Equipment.findById(equipmentId).populate('OwnedBy')
+  Equipment.findById(equipmentId)
+    .populate("ownedBy")
     .then((foundEquipment) => {
-        console.log(foundEquipment)
-        res.status(200).json(foundEquipment)
-    }).catch((err) => {
-        console.log(err)
+      console.log(foundEquipment);
+      res.status(200).json(foundEquipment);
     })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-router.post('/', (req, res, next) => {
-    const { name, description, imageUrl, condition, OwnedBy, rentedBy, available } = req.body;
+router.post("/", (req, res, next) => {
+  const {
+    name,
+    description,
+    imageUrl,
+    condition,
+    OwnedBy,
+    rentedBy,
+    available,
+  } = req.body;
 
-    Equipment.create({ name, description, imageUrl, condition, OwnedBy, rentedBy, available })
+  Equipment.create({
+    name,
+    description,
+    imageUrl,
+    condition,
+    OwnedBy,
+    rentedBy,
+    available,
+  })
     .then((createdEquipement) => {
-        res.status(201).json(createdEquipement)
+      res.status(201).json(createdEquipement);
     })
-    .catch((err) =>{
-        console.log(err)
-    })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-router.put('/:equipmentId', (req, res, next) => {
-    const { equipmentId } = req.params;
+router.put("/:equipmentId", (req, res, next) => {
+  const { equipmentId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(equipmentId)){
-        res.status(400).json({message: `Specified id is not valid`});
-      }
+  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+    res.status(400).json({ message: `Specified id is not valid` });
+  }
 
-    Equipment.findByIdAndUpdate(equipmentId, req.body, {new: true})
+  Equipment.findByIdAndUpdate(equipmentId, req.body, { new: true })
     .then((updatedEquipment) => {
-        res.status(200).json(updatedEquipment)
+      res.status(200).json(updatedEquipment);
     })
-    .catch((err) =>
-        console.log(err)
-    )
-})
+    .catch((err) => console.log(err));
+});
 
-router.delete('/:equipmentId', (req, res, next) => {
-    const { equipmentId } = req.params;
+router.delete("/:equipmentId", (req, res, next) => {
+  const { equipmentId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(equipmentId)){
-        res.status(400).json({message: `Specified id is not valid`});
-      }
+  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+    res.status(400).json({ message: `Specified id is not valid` });
+  }
 
-    Equipment.findByIdAndRemove(equipmentId)
+  Equipment.findByIdAndRemove(equipmentId)
     .then(() => {
-        res.status(200).json({message: `Equipment with ${equipmentId} has beeen deleted successfully`})
+      res
+        .status(200)
+        .json({
+          message: `Equipment with ${equipmentId} has beeen deleted successfully`,
+        });
     })
     .catch((err) => {
       console.log(err);
