@@ -29,7 +29,7 @@ const userSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      default: "./src/assets/defaultAvatar.png",
+      default: "../src/assets/defaultAvatar.png",
     },
     equipment: {
       type: [mongoose.Schema.Types.ObjectId],

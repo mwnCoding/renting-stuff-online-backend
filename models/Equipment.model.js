@@ -7,13 +7,32 @@ const equipmentSchema = new Schema(
       type: String,
       required: [true, "Name is required"],
     },
-    description: String,
-    imageUrl: String,
+    description: {
+      type: String,
+      minLength: 20,
+      maxLength: 150,
+    },
+    imageUrl: {
+      type: String,
+      default: "",
+    },
     condition: {
       type: String,
       enum: ["poor", "used", "good", "new"],
     },
-    OwnedBy: {
+    categories: {
+      type: [String],
+      enum: [
+        "Tennis",
+        "Climbing",
+        "Fishing",
+        "Hiking",
+        "Surfing",
+        "Biking",
+        "Skiing",
+      ],
+    },
+    ownedBy: {
       required: [true, "Owned By is required"],
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
