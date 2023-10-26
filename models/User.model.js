@@ -1,36 +1,50 @@
+const mongoose = require("mongoose");
+
 const { Schema, model } = require("mongoose");
+
+const Equipment = require("./Equipment.model");
+const Comments = require("./Comments.model");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
     email: {
       type: String,
-      required: [true, 'Email is required.'],
+      required: [true, "Email is required."],
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
-    password: {
+    passwordHash: {
       type: String,
-      required: [true, 'Password is required.']
+      required: [true, "Password is required."],
     },
     firstName: {
       type: String,
-      required: [true, 'First name is required']
+      required: [true, "First name is required"],
     },
     lastName: {
       type: String,
-      required: [true, 'Last name is required']
+      required: [true, "Last name is required"],
     },
-    imageUrl: String,
-    email: {
+    imageUrl: {
       type: String,
-      required: [true, 'Email is required']
-    }
+      default: "./src/assets/defaultAvatar.png",
+    },
+    equipment: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Equipment",
+      default: [],
+    },
+    comments: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Comments",
+      default: [],
+    },
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`    
-    timestamps: true
+    // this second object adds extra properties: `createdAt` and `updatedAt`
+    timestamps: true,
   }
 );
 
