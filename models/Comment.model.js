@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = require("mongoose");
 
-const commentsSchema = new Schema({
+const commentSchema = new Schema({
   content: {
     type: String,
     required: [true, "Content is required"],
@@ -20,13 +20,13 @@ const commentsSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  OwnedBy: {
+  ownedBy: {
     required: [true, "Owned By is required"],
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
 });
 
-const Comments = model("Comments", commentsSchema);
+const Comment = model("Comment", commentSchema);
 
-module.exports = Comments;
+module.exports = Comment;
