@@ -3,9 +3,12 @@ const mongoose = require("mongoose");
 const { Schema, model } = require("mongoose");
 
 const Equipment = require("./Equipment.model");
-const Comments = require("./Comments.model");
+
 const fileUploader = require("../middlewares/cloudinary.config");
  
+
+const Comment = require("./Comment.model");
+
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
@@ -31,7 +34,7 @@ const userSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      default: "./src/assets/defaultAvatar.png",
+      default: "../src/assets/defaultAvatar.png",
     },
     equipment: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -40,7 +43,7 @@ const userSchema = new Schema(
     },
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Comments",
+      ref: "Comment",
       default: [],
     },
   },
