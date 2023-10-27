@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 
 const Equipment = require("./Equipment.model");
 const Comments = require("./Comments.model");
-
+const fileUploader = require("../middlewares/cloudinary.config");
  
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case

@@ -1,7 +1,7 @@
 const User = require('../models/User.model');
 const express = require('express');
 const router = express.Router();
-const fileUploader = require("../config/cloudinary.config");
+const fileUploader = require("../middlewares/cloudinary.config");
 
 router.get('/:userId', async (req, res) => {
     const { userId } = req.params;
@@ -16,19 +16,38 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
-router.post("/upload", fileUploader.single("imageUrl"), async (req, res, next) => {
-    if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded!" });
+router.put("/upload/:id", fileUploader.single("imageUrl"), async (req, res, next) => {
+    const userId = req.params.id;
+    const updatedUser = {
+        firstName:req.body.firstName,lastName:req.body.lastName, email:req.body.email
     }
-    const userData = req.body;
+
+    
+    if(req.file){
+        updatedUser.imageUrl=req.file.path;
+    }
+    console.log(updatedUser);
     try {
-        const user = new User({
-            imageUrl: req.file.path, 
-        });
-        await user.save();
-        res.status(201).json(user);
+        
+        const user = await User.findById(userId);
+
+        if (!user) {
+            console.log("user not found")
+            return res.status(404).json({ error: 'User not found' });
+            
+        }
+       const response = await User.findByIdAndUpdate(userId, updatedUser, {new:true})
+       console.log(response);
+       
+
+        
+
+      
+  
+
+        res.status(200).json(response);
     } catch (err) {
-        // Pass the error to the error handling middleware using `next`
+        console.log(err);
         next(err);
     }
 });
