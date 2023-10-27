@@ -24,6 +24,21 @@ router.post('/', (req, res, next) => {
     })
 })
 
+router.get('/:commentId', (req, res, next) =>{
+    const { commentId } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(commentId)){
+        res.status(400).json({message: `Specified id is not valid`});
+    }
+    Comment.findById(commentId).populate('createdBy').populate('ownedBy')
+    .then((updatedComment) => {
+        res.status(200).json(updatedComment)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+
 router.put('/:commentId', (req, res, next) =>{
     const { commentId } = req.params
 
