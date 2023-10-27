@@ -3,7 +3,12 @@ const mongoose = require("mongoose");
 const { Schema, model } = require("mongoose");
 
 const Equipment = require("./Equipment.model");
+
+const fileUploader = require("../middlewares/cloudinary.config");
+ 
+
 const Comment = require("./Comment.model");
+
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(

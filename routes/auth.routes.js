@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middlewares/routeGuard.middleware");
+const fileUploader = require("../middlewares/cloudinary.config");
 
 const router = require("express").Router();
 
@@ -10,7 +11,7 @@ router.get("/", (req, res, next) => {
 });
 
 //Post to Signup
-router.post("/signup", async (request, response) => {
+router.post("/signup", fileUploader.single("imageUrl"), async (request, response) => {
   const salt = bcrypt.genSaltSync(13);
 
   const passwordHash = bcrypt.hashSync(request.body.password, salt);
