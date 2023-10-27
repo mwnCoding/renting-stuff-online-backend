@@ -38,7 +38,7 @@ router.post("/", (req, res, next) => {
     description,
     imageUrl,
     condition,
-    OwnedBy,
+    ownedBy,
     rentedBy,
     available,
   } = req.body;
@@ -48,7 +48,7 @@ router.post("/", (req, res, next) => {
     description,
     imageUrl,
     condition,
-    OwnedBy,
+    ownedBy,
     rentedBy,
     available,
   })
