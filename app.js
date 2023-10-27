@@ -17,8 +17,8 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "https://rentingstuffonline.netlify.app",
       "http://localhost:5173",
-      "https://rentingstuffonline.netlify.app/",
     ],
   })
 );
