@@ -2,6 +2,8 @@ const Equipment = require("../models/Equipment.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
+const fileUploader = require("../middlewares/cloudinary.config");
+
 router.get("/", (req, res, next) => {
   Equipment.find(req.query)
     .populate("ownedBy")
@@ -62,19 +64,17 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.put("/:equipmentId", (req, res, next) => {
-  const { equipmentId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
-    res.status(400).json({ message: `Specified id is not valid` });
+router.put(
+  "/upload",
+  fileUploader.single("imageUrl"),
+  async (req, res, next) => {
+    if (req.file) {
+      res.status(200).json({ file: `${req.file.path}` });
+    } else {
+      res.status(401).json({ message: "File upload error please try again" });
+    }
   }
-
-  Equipment.findByIdAndUpdate(equipmentId, req.body, { new: true })
-    .then((updatedEquipment) => {
-      res.status(200).json(updatedEquipment);
-    })
-    .catch((err) => console.log(err));
-});
+);
 
 router.delete("/:equipmentId", (req, res, next) => {
   const { equipmentId } = req.params;
@@ -150,7 +150,7 @@ router.put("/:equipmentId", (req, res, next) => {
 
   Equipment.findByIdAndUpdate(equipmentId, req.body, { new: true })
     .then((updatedEquipment) => {
-      req.status(200).json(updatedEquipment);
+      res.status(200).json(updatedEquipment);
     })
     .catch((err) => console.log(err));
 });
