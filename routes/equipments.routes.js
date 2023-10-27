@@ -83,11 +83,9 @@ router.delete("/:equipmentId", (req, res, next) => {
 
   Equipment.findByIdAndRemove(equipmentId)
     .then(() => {
-      res
-        .status(200)
-        .json({
-          message: `Equipment with ${equipmentId} has beeen deleted successfully`,
-        });
+      res.status(200).json({
+        message: `Equipment with ${equipmentId} has beeen deleted successfully`,
+      });
     })
     .catch((err) => {
       console.log(err);
