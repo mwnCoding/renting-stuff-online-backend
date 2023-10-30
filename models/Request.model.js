@@ -2,36 +2,49 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = require("mongoose");
 
-const requestSchema = new Schema({
+const requestSchema = new Schema(
+  {
     requesterId: {
-        required: [true, "Requester Id is required"],
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      required: [true, "Requester Id is required"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    equipmentId: {
+      required: [true, "Equipment Id is required"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Equipment",
     },
     ownerId: {
-        required: [true, "Requester Id is required"],
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      required: [true, "Requester Id is required"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    requestMessage :{
-        type: String,
-        required: [true, "Request Message is required"],
-        minLength: 20
+    requestMessage: {
+      type: String,
+      required: [true, "Request Message is required"],
+      minLength: 10,
     },
-    responseMessage :{
-        type: String,
-        minLength: 20
+    responseMessage: {
+      type: String,
     },
-    dateRange: {
-        type: Date, 
+    startDate: {
+      type: Date,
+      default: Date.now
+    },
+    endDate: {
+        type: Date,
         default: Date.now
+      },
+    status: {
+      type: String,
+      enum: ["pending", "accepted", "declined"],
+      default: "pending",
     },
-    status:{
-        type: String,
-        enum: ["pending", "accepted", "declined"],
-        default: "pending"
-    }
-});
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const Request = model("Request", requestSchema);
 
