@@ -14,7 +14,8 @@ const equipmentSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      default: "",
+      default:
+        "https://res.cloudinary.com/dq06ojue1/image/upload/v1698659751/trsfpj0z9irvccspskqu.jpg",
     },
     condition: {
       type: String,
