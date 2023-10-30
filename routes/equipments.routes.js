@@ -94,22 +94,7 @@ router.delete("/:equipmentId", (req, res, next) => {
     });
 });
 
-router.get("/:equipmentId", (req, res, next) => {
-  const { equipmentId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
-    res.status(400).json({ message: `Specified id is not valid` });
-  }
-
-  Equipment.findById(equipmentId)
-    .then((foundEquipment) => {
-      console.log(foundEquipment);
-      res.status(200).json(foundEquipment);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
 
 router.post("/", (req, res, next) => {
   const {
