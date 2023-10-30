@@ -15,7 +15,6 @@ router.post("/signup", fileUploader.single("imageUrl"), async (request, response
   const salt = bcrypt.genSaltSync(13);
 
   const passwordHash = bcrypt.hashSync(request.body.password, salt);
-  console.log(request.body.password)
   try {
     const newUser = await User.create({ ...request.body, passwordHash });
     response.status(201).json(newUser);
@@ -50,7 +49,6 @@ router.post("/login", async (request, response) => {
 });
 
 router.get("/verify", isAuthenticated, (request, response) => {
-  console.log(request.payload);
   response.json(request.payload);
 });
 
