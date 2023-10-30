@@ -5,7 +5,24 @@ const router = require("express").Router();
 const fileUploader = require("../middlewares/cloudinary.config");
 
 router.get("/", (req, res, next) => {
-  Equipment.find(req.query)
+  const { categories, search } = req.query;
+  let query = {};
+
+  if (categories) {
+    query.categories = categories;
+  }
+
+  if (search) {
+    query = {
+      ...query,
+      $or: [
+        { name: { $regex: search, $options: 'i' } }, 
+        { description: { $regex: search, $options: 'i' } }
+      ]
+    };
+  }
+
+  Equipment.find(query)
     .populate("ownedBy")
     .then((equipments) => {
       console.log(equipments);
@@ -13,6 +30,7 @@ router.get("/", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).json({ error: "Internal server error" });
     });
 });
 
