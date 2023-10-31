@@ -11,11 +11,11 @@ router.get("/", (req, res, next) => {
 });
 
 //Post to Signup
-router.post("/signup", fileUploader.single("imageUrl"), async (request, response) => {
+router.post("/signup", async (request, response) => {
   const salt = bcrypt.genSaltSync(13);
-
+  console.log(request.body.password);
   const passwordHash = bcrypt.hashSync(request.body.password, salt);
-  console.log(request.body.password)
+
   try {
     const newUser = await User.create({ ...request.body, passwordHash });
     response.status(201).json(newUser);
@@ -53,5 +53,17 @@ router.get("/verify", isAuthenticated, (request, response) => {
   console.log(request.payload);
   response.json(request.payload);
 });
+
+router.put(
+  "/upload",
+  fileUploader.single("imageUrl"),
+  async (req, res, next) => {
+    if (req.file) {
+      res.status(200).json({ file: `${req.file.path}` });
+    } else {
+      res.status(401).json({ message: "File upload error please try again" });
+    }
+  }
+);
 
 module.exports = router;
