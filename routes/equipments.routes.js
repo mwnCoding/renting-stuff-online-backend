@@ -5,11 +5,15 @@ const router = require("express").Router();
 const fileUploader = require("../middlewares/cloudinary.config");
 
 router.get("/", (req, res, next) => {
-  const { ownedBy, categories, search } = req.query;
+  const { available, ownedBy, categories, search } = req.query;
   let query = {};
 
   if (categories) {
     query.categories = categories;
+  }
+
+  if (available) {
+    query.available = available;
   }
   
   if ( ownedBy ){
