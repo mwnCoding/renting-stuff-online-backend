@@ -1,4 +1,5 @@
 const Equipment = require("../models/Equipment.model");
+const Request = require("../models/Request.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
@@ -15,8 +16,8 @@ router.get("/", (req, res, next) => {
   if (available) {
     query.available = available;
   }
-  
-  if ( ownedBy ){
+
+  if (ownedBy) {
     query.ownedBy = ownedBy;
   }
 
@@ -24,9 +25,9 @@ router.get("/", (req, res, next) => {
     query = {
       ...query,
       $or: [
-        { name: { $regex: search, $options: 'i' } }, 
-        { description: { $regex: search, $options: 'i' } }
-      ]
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ],
     };
   }
 
@@ -102,26 +103,6 @@ router.put(
   }
 );
 
-router.delete("/:equipmentId", (req, res, next) => {
-  const { equipmentId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
-    res.status(400).json({ message: `Specified id is not valid` });
-  }
-
-  Equipment.findByIdAndRemove(equipmentId)
-    .then(() => {
-      res.status(200).json({
-        message: `Equipment with ${equipmentId} has beeen deleted successfully`,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-
-
 router.post("/", (req, res, next) => {
   const {
     name,
@@ -173,15 +154,27 @@ router.delete("/:equipmentId", (req, res, next) => {
     res.status(400).json({ message: `Specified id is not valid` });
   }
 
-  Equipment.findByIdAndRemove(equipmentId)
-    .then(() => {
-      req.status(200).json({
-        message: `Equipment with ${equipmentId} has beeen deleted successfully`,
+  const potato = equipmentId;
+  Request.find({ equipmentId: `${potato}` })
+    .then((foundRequests) => {
+      foundRequests.forEach((request) => {
+        Request.findByIdAndRemove(request._id)
+        .then(() => {console.log(ok)})
+        .catch((err) => {console.log(err)});
       });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(
+      Equipment.findByIdAndRemove(equipmentId)
+        .then(() => {
+          res.status(200).json({
+            message: `Equipment with ${equipmentId} has beeen deleted successfully`,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    )
+    .catch((error) => console.log(error));
 });
 
 module.exports = router;
