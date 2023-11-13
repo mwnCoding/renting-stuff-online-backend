@@ -154,8 +154,8 @@ router.delete("/:equipmentId", (req, res, next) => {
     res.status(400).json({ message: `Specified id is not valid` });
   }
 
-  const potato = equipmentId;
-  Request.find({ equipmentId: `${potato}` })
+  const id = equipmentId;
+  Request.find({ equipmentId: `${id}` })
     .then((foundRequests) => {
       foundRequests.forEach((request) => {
         Request.findByIdAndRemove(request._id)
