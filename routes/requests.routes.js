@@ -11,7 +11,7 @@ router.get("/", (req, res, next) => {
       res.status(200).json(requests);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -40,7 +40,7 @@ router.post("/", (req, res, next) => {
       res.status(200).json(createdRequest);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -57,7 +57,7 @@ router.get("/:requestId", (req, res, next) => {
       res.status(200).json(foundRequest);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -74,7 +74,7 @@ router.put("/:requestId", (req, res, next) => {
       res.status(200).json(updatedRequest);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -88,7 +88,7 @@ router.delete("/:requestId", (req, res, next) => {
       res.status(200).json({ message: `The request has been deleted` });
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 

@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
       res.status(200).json(comments);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -21,7 +21,7 @@ router.post("/", (req, res, next) => {
       res.status(201).json(createdComment);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -38,7 +38,7 @@ router.get("/:commentId", (req, res, next) => {
       res.status(200).json(updatedComment);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -53,7 +53,7 @@ router.put("/:commentId", (req, res, next) => {
       res.status(200).json(updatedComment);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -71,7 +71,7 @@ router.delete("/:commentId", (req, res, next) => {
         .json({ message: `Comment has been deleted successfully` });
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
