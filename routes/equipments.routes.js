@@ -61,36 +61,6 @@ router.get("/:equipmentId", (req, res, next) => {
     });
 });
 
-router.post("/", (req, res, next) => {
-  const {
-    name,
-    description,
-    imageUrl,
-    condition,
-    categories,
-    ownedBy,
-    rentedBy,
-    available,
-  } = req.body;
-
-  Equipment.create({
-    name,
-    description,
-    imageUrl,
-    condition,
-    categories,
-    ownedBy,
-    rentedBy,
-    available,
-  })
-    .then((createdEquipement) => {
-      res.status(201).json(createdEquipement);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
 router.put(
   "/upload",
   fileUploader.single("imageUrl"),
