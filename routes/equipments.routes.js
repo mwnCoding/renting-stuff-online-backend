@@ -129,7 +129,7 @@ router.post("/", (req, res, next) => {
       res.status(201).json(createdEquipement);
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
@@ -144,7 +144,7 @@ router.put("/:equipmentId", (req, res, next) => {
     .then((updatedEquipment) => {
       res.status(200).json(updatedEquipment);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => next(err));
 });
 
 router.delete("/:equipmentId", (req, res, next) => {
@@ -160,7 +160,7 @@ router.delete("/:equipmentId", (req, res, next) => {
       foundRequests.forEach((request) => {
         Request.findByIdAndRemove(request._id)
         .then(() => {console.log(ok)})
-        .catch((err) => {console.log(err)});
+        .catch((err) => {next(err)});
       });
     })
     .then(
@@ -171,10 +171,10 @@ router.delete("/:equipmentId", (req, res, next) => {
           });
         })
         .catch((err) => {
-          console.log(err);
+          next(err);
         })
     )
-    .catch((error) => console.log(error));
+    .catch((error) => next(error));
 });
 
 module.exports = router;
