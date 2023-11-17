@@ -34,12 +34,10 @@ router.get("/", (req, res, next) => {
   Equipment.find(query)
     .populate("ownedBy")
     .then((equipments) => {
-      console.log(equipments);
       res.status(200).json(equipments);
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: "Internal server error" });
+      next(err);
     });
 });
 
@@ -53,41 +51,10 @@ router.get("/:equipmentId", (req, res, next) => {
   Equipment.findById(equipmentId)
     .populate("ownedBy")
     .then((foundEquipment) => {
-      console.log(foundEquipment);
       res.status(200).json(foundEquipment);
     })
     .catch((err) => {
-      console.log(err);
-    });
-});
-
-router.post("/", (req, res, next) => {
-  const {
-    name,
-    description,
-    imageUrl,
-    condition,
-    categories,
-    ownedBy,
-    rentedBy,
-    available,
-  } = req.body;
-
-  Equipment.create({
-    name,
-    description,
-    imageUrl,
-    condition,
-    categories,
-    ownedBy,
-    rentedBy,
-    available,
-  })
-    .then((createdEquipement) => {
-      res.status(201).json(createdEquipement);
-    })
-    .catch((err) => {
-      console.log(err);
+      next(err);
     });
 });
 
