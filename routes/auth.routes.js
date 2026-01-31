@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middlewares/routeGuard.middleware");
-const fileUploader = require("../middlewares/cloudinary.config");
+const cloudinary = require("../middlewares/cloudinary.config");
 
 const router = require("express").Router();
 
@@ -53,13 +53,32 @@ router.get("/verify", isAuthenticated, (request, response) => {
   response.json(request.payload);
 });
 
-router.put("/upload", fileUploader.single("imageUrl"), async (req, res) => {
+router.get("/signUpload", (req, res) => {
+  const timestamp = Math.round(Date.now() / 1000);
+
+  const signature = cloudinary.utils.api_sign_request(
+    {
+      timestamp,
+      folder: "profilePictureRSO",
+    },
+    process.env.CLOUDINARY_SECRET,
+  );
+
+  res.json({
+    timestamp,
+    signature,
+    cloudName: process.env.CLOUDINARY_NAME,
+    apiKey: process.env.CLOUDINARY_KEY,
+  });
+});
+
+router.put("/upload", async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+    if (!req.fileURL) {
+      return res.status(400).json({ message: "No file Url" });
     }
 
-    res.status(200).json({ file: req.file.path });
+    res.status(200).json({ file: req.fileURL });
   } catch (err) {
     console.error("UPLOAD ERROR:", err);
     res.status(500).json({ message: "Upload failed" });
