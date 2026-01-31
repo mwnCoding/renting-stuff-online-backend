@@ -10,13 +10,4 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "profilePictureRSO",
-    allowed_formats: ["jpg", "png"],
-    public_id: (req, file) => file.originalname,
-  },
-});
-
-module.exports = multer({ storage });
+module.exports = cloudinary;
