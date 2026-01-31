@@ -14,13 +14,12 @@ const express = require("express");
 
 const app = express();
 
+const ORIGIN_URL = process.env.ORIGIN;
+
 app.use(
   cors({
-    origin: [
-      "https://rentingstuffonline.netlify.app",
-      "http://localhost:5173",
-    ],
-  })
+    origin: [ORIGIN_URL],
+  }),
 );
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
