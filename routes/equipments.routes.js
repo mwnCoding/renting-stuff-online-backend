@@ -3,8 +3,6 @@ const Request = require("../models/Request.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
-const fileUploader = require("../middlewares/cloudinary.config");
-
 router.get("/", (req, res, next) => {
   const { available, ownedBy, categories, search } = req.query;
   let query = {};
@@ -58,17 +56,13 @@ router.get("/:equipmentId", (req, res, next) => {
     });
 });
 
-router.put(
-  "/upload",
-  fileUploader.single("imageUrl"),
-  async (req, res, next) => {
-    if (req.file) {
-      res.status(200).json({ file: `${req.file.path}` });
-    } else {
-      res.status(401).json({ message: "File upload error please try again" });
-    }
+router.put("/upload", async (req, res, next) => {
+  if (req.file) {
+    res.status(200).json({ file: `${req.file.path}` });
+  } else {
+    res.status(401).json({ message: "File upload error please try again" });
   }
-);
+});
 
 router.post("/", (req, res, next) => {
   const {
@@ -126,8 +120,12 @@ router.delete("/:equipmentId", (req, res, next) => {
     .then((foundRequests) => {
       foundRequests.forEach((request) => {
         Request.findByIdAndRemove(request._id)
-        .then(() => {console.log(ok)})
-        .catch((err) => {next(err)});
+          .then(() => {
+            console.log(ok);
+          })
+          .catch((err) => {
+            next(err);
+          });
       });
     })
     .then(
@@ -139,7 +137,7 @@ router.delete("/:equipmentId", (req, res, next) => {
         })
         .catch((err) => {
           next(err);
-        })
+        }),
     )
     .catch((error) => next(error));
 });
