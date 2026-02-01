@@ -25,12 +25,14 @@ router.put("/upload/:id", async (req, res, next) => {
     email: req.body.email,
     imageUrl: req.body.imageUrl,
   };
+  console.log(updatedUser);
   try {
     const user = await User.findById(userId);
     if (!user) {
       console.log("user not found");
       return res.status(404).json({ error: "User not found" });
     }
+    console.log(updatedUser);
     const response = await User.findByIdAndUpdate(userId, updatedUser, {
       new: true,
     });
