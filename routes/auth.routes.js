@@ -49,40 +49,40 @@ router.post("/login", async (request, response) => {
   }
 });
 
-router.get("/verify", isAuthenticated, (request, response) => {
-  response.json(request.payload);
-});
-
-router.get("/signUpload", (req, res) => {
-  const timestamp = Math.round(Date.now() / 1000);
-
-  const signature = cloudinary.utils.api_sign_request(
-    {
-      timestamp,
-      folder: "profilePictureRSO",
-    },
-    process.env.CLOUDINARY_SECRET,
-  );
-
-  res.json({
-    timestamp,
-    signature,
-    cloudName: process.env.CLOUDINARY_NAME,
-    apiKey: process.env.CLOUDINARY_KEY,
-  });
-});
-
-router.put("/upload", async (req, res) => {
+router.get("/verify", isAuthenticated, async (request, response) => {
   try {
-    if (!req.fileURL) {
-      return res.status(400).json({ message: "No file Url" });
-    }
-
-    res.status(200).json({ file: req.fileURL });
-  } catch (err) {
-    console.error("UPLOAD ERROR:", err);
-    res.status(500).json({ message: "Upload failed" });
+    console.log(request.payload.userId);
+    const user = await User.findById(request.payload.userId);
+    response.json(user);
+  } catch (error) {
+    response.status(400).json({ message: "User not found" });
   }
 });
+
+// router.post("/signUpload", isAuthenticated, (req, res) => {
+//   const timestamp = Math.round(Date.now() / 1000);
+
+//   const signature = cloudinary.utils.api_sign_request(
+//     {
+//       timestamp,
+//       folder: "profilePictureRSO",
+//       public_id: req.payload.userId,
+//       overwrite: true,
+//       invalidate: true,
+//     },
+//     process.env.CLOUDINARY_SECRET,
+//   );
+
+//   res.json({
+//     timestamp,
+//     signature,
+//     cloudName: process.env.CLOUDINARY_NAME,
+//     api_key: process.env.CLOUDINARY_KEY,
+//     public_id: req.payload.userId,
+//     overwrite: true,
+//     invalidate: true,
+//     folder: "profilePictureRSO",
+//   });
+// });
 
 module.exports = router;
