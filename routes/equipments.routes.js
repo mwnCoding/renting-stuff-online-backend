@@ -3,12 +3,14 @@ const Request = require("../models/Request.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
+//Get all equipments based on query parameters
 router.get("/", (req, res, next) => {
   const { available, ownedBy, categories, search } = req.query;
   let query = {};
 
   if (categories) {
     query.categories = categories;
+    console.log(categories);
   }
 
   if (available) {
@@ -30,7 +32,7 @@ router.get("/", (req, res, next) => {
   }
 
   Equipment.find(query)
-    .populate("ownedBy")
+    .populate(["ownedBy", "categories"])
     .then((equipments) => {
       res.status(200).json(equipments);
     })
@@ -39,6 +41,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
+//Get specific equipment
 router.get("/:equipmentId", (req, res, next) => {
   const { equipmentId } = req.params;
 
@@ -64,6 +67,7 @@ router.put("/upload", async (req, res, next) => {
   }
 });
 
+//Create new equipment
 router.post("/", (req, res, next) => {
   const {
     name,
@@ -94,6 +98,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
+//Update specific equpment
 router.put("/:equipmentId", (req, res, next) => {
   const { equipmentId } = req.params;
 
@@ -108,6 +113,7 @@ router.put("/:equipmentId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+//Delete specific equipment
 router.delete("/:equipmentId", (req, res, next) => {
   const { equipmentId } = req.params;
 

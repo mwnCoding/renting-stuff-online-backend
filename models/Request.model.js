@@ -29,12 +29,12 @@ const requestSchema = new Schema(
     },
     startDate: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     endDate: {
-        type: Date,
-        default: Date.now
-      },
+      type: Date,
+      default: Date.now,
+    },
     status: {
       type: String,
       enum: ["pending", "accepted", "declined"],
@@ -43,7 +43,7 @@ const requestSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Request = model("Request", requestSchema);

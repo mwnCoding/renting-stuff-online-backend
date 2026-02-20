@@ -3,11 +3,7 @@ const cloudinary = require("../middlewares/cloudinary.config");
 
 const router = require("express").Router();
 
-(router.post("/"),
-  (req, res) => {
-    res({ message: "cool" });
-  });
-
+//Sign upload
 router.post("/signUpload", isAuthenticated, (req, res) => {
   const timestamp = Math.round(Date.now() / 1000);
   const { folderName } = req.body;

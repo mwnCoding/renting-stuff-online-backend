@@ -4,6 +4,7 @@ const router = express.Router();
 
 const { isAuthenticated } = require("../middlewares/routeGuard.middleware");
 
+//Get User
 router.get("/:userId", isAuthenticated, async (req, res) => {
   const { userId } = req.params;
   if (req.payload.userId !== userId)
@@ -21,6 +22,7 @@ router.get("/:userId", isAuthenticated, async (req, res) => {
   }
 });
 
+//Update existing user
 router.put("/upload/:id", isAuthenticated, async (req, res, next) => {
   const userId = req.params.id;
   if (req.payload.userId !== userId)
@@ -45,25 +47,6 @@ router.put("/upload/:id", isAuthenticated, async (req, res, next) => {
   } catch (err) {
     console.log(err);
     next(err);
-  }
-});
-
-// Update an existing user
-router.put("/:id", async (req, res) => {
-  const userId = req.params.id;
-  const updatedUserData = req.body;
-  if (req.payload.userId !== userId)
-    return res.status(401).json({ error: "User not Unauthorized" });
-  try {
-    const user = await User.findByIdAndUpdate(userId, updatedUserData, {
-      new: true,
-    });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: "User update failed." });
   }
 });
 

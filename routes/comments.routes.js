@@ -2,6 +2,7 @@ const Comment = require("../models/Comment.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
+//Get all comments
 router.get("/", (req, res, next) => {
   Comment.find(req.query)
     .populate("createdBy")
@@ -14,6 +15,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
+//Create a new document
 router.post("/", (req, res, next) => {
   const { content, rating, createdBy, ownedBy } = req.body;
   Comment.create({ content, rating, createdBy, ownedBy })
@@ -25,6 +27,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
+//Get a specific comment
 router.get("/:commentId", (req, res, next) => {
   const { commentId } = req.params;
 
@@ -42,6 +45,7 @@ router.get("/:commentId", (req, res, next) => {
     });
 });
 
+//Update a specific comment
 router.put("/:commentId", (req, res, next) => {
   const { commentId } = req.params;
 
@@ -57,6 +61,7 @@ router.put("/:commentId", (req, res, next) => {
     });
 });
 
+//Delete a specific comment
 router.delete("/:commentId", (req, res, next) => {
   const { commentId } = req.params;
 

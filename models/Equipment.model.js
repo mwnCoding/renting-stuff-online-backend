@@ -22,16 +22,9 @@ const equipmentSchema = new Schema(
       enum: ["poor", "used", "good", "new"],
     },
     categories: {
-      type: [String],
-      enum: [
-        "Tennis",
-        "Climbing",
-        "Fishing",
-        "Hiking",
-        "Surfing",
-        "Biking",
-        "Skiing",
-      ],
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Category",
+      default: [],
     },
     ownedBy: {
       required: [true, "Owned By is required"],
@@ -49,7 +42,7 @@ const equipmentSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Equipment = model("Equipment", equipmentSchema);
